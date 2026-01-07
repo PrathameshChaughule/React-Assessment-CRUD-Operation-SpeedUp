@@ -3,7 +3,7 @@ import axios from 'axios'
 import TaskTable from './TaskTable'
 
 function TaskForm() {
-  const [data, setData] = useState({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", duaDate: "" })
+  const [data, setData] = useState({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", dueDate: "" })
   const [render, setRender] = useState(false)
   const formHandle = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
@@ -13,7 +13,7 @@ function TaskForm() {
     try {
       await axios.post("http://localhost:3000/tasks", data)
       alert("Successfully Added")
-      setData({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", duaDate: "" })
+      setData({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", dueDate: "" })
       setRender(true)
     } catch (error) {
       console.log(error);

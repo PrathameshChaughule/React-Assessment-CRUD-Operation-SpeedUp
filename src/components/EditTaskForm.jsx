@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-function EditTaskForm({ id }) {
-    const [data, setData] = useState({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", duaDate: "" })
-    const [render, setRender] = useState(false)
+function EditTaskForm({ id, setEditTaskId, setRender }) {
+    const [data, setData] = useState({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", dueDate: "" })
 
     const fetchData = async () => {
         try {
             const res = await axios.get(`http://localhost:3000/tasks/${id}`)
             const task = res.data
-            setData({})
+            setData({ ...data, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskStatus: task.taskStatus, priority: task.priority, dueDate: task.dueDate })
         } catch (error) {
             console.log(error);
-
         }
     }
 
@@ -27,9 +25,10 @@ function EditTaskForm({ id }) {
     const formSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.post("http://localhost:3000/tasks", data)
-            alert("Successfully Added")
-            setData({ taskTitle: "", taskDescription: "", taskStatus: "Pending", priority: "", duaDate: "" })
+            await axios.patch(`http://localhost:3000/tasks/${id}`, data)
+            alert("Successfully Updated")
+            setRender(true)
+            setEditTaskId(null)
             setRender(true)
         } catch (error) {
             console.log(error);
@@ -39,7 +38,7 @@ function EditTaskForm({ id }) {
         <form
             onSubmit={formSubmit}
             style={{
-                maxWidth: "420px",
+                width: "420px",
                 margin: "40px auto",
                 padding: "20px",
                 borderRadius: "10px",
@@ -80,6 +79,19 @@ function EditTaskForm({ id }) {
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
+            </select>
+
+            <label style={{ fontWeight: "600" }}>Status</label>
+            <select
+                name="taskStatus"
+                value={data.taskStatus}
+                onChange={formHandle}
+
+            >
+                <option value="">Select Status</option>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
             </select>
 
             <label style={{ fontWeight: "600" }}>Due Date</label>

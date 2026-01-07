@@ -96,8 +96,8 @@ function TaskTable({ render, setRender }) {
         </tbody>
       </table>
       {editTaskId && (
-        <div style={{ position: "absolute", zIndex: 100, top: "100px", left: "50%" }}>
-          <EditTaskForm id={editTaskId} />
+        <div style={{ position: "absolute", zIndex: 100, top: "-20px", left: "36.5%" }}>
+          <EditTaskForm id={editTaskId} setEditTaskId={setEditTaskId} setRender={setRender} />
         </div>
       )}
     </div>
